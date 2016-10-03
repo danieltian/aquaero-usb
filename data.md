@@ -1,6 +1,6 @@
 ### Report ID 7 (Update Software Temps)
 
-Report ID 7 followed by 8 int16's which corresponds to the 8 possible software temperature sensors. Values should be in Celsius, multiplied by 100 (so 50 degrees becomes 5,000). Array size should be 17 bytes. All 8 sensors must be sent at once. Any sensor that doesn't have a value should be marked as 0xFF.
+Report ID 7 followed by 8 int16's which corresponds to the 8 possible software temperature sensors. Values should be in Celsius, multiplied by 100 (so 50 degrees becomes 5,000). Array size should be 17 bytes exactly. All 8 sensors must be sent at once. Any sensor that doesn't have a value should be marked as 0xFF.
 
 Example: We have the temperature readings 10, 20, 30, 40, and 50 for the first 5 sensors.
 
@@ -11,7 +11,7 @@ Example: We have the temperature readings 10, 20, 30, 40, and 50 for the first 5
 
 ### Report ID 10 (Update Software Temp Name)
 
-Report ID 10 followed by an int16 that represents the software sensor to update (starts at 32, increments by 1 up to 40 for all 8 sensors). Then followed by 0x00, then a 24-byte string for the name where the last byte is 0x00 (allowing for 23 characters total). Any character in between that's blank should be 0x00. The Aquaero 6 does not support double-byte characters, and supports most, but not all text with diacritics. Eszett is also supported, but not the capitalized version.
+Report ID 10 followed by an int16 that represents the software sensor to update (starts at 32, increments by 1 up to 40 for all 8 sensors). Then followed by 0x00, then a 24-byte string for the name where the last byte is 0x00 (allowing for 23 characters total). Any character in between that's blank should be 0x00. The array size should be 28 bytes exactly. The Aquaero 6 supports the complete Latin1 character set (also known as ISO 8859-1) minus the very last character, 'ÿ'. Sending data that uses another encoding (such as UTF8 or Windows-1252) will treat it as if it's the Latin1 character set.
 
 Example: We set software sensor 32 with the string 'abcde':
 
