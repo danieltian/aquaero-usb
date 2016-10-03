@@ -47,7 +47,7 @@ function writeSoftwareSensorName(name) {
   buffer.writeUInt16BE(32, 1);
   buffer.write(name, 4, name.length, 'latin1');
   var array = Array.from(buffer);
-  console.log(Array.from(Buffer.from(name, 'latin1')));
+  console.log(array);
 
   device.write(array);
 }

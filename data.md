@@ -1,12 +1,12 @@
 ### Report ID 7 (Update Software Temps)
 
-Report ID 7 followed by 8 int16's which corresponds to the 8 possible software temperature sensors. Values should be in Celsius, multiplied by 100 (so 50 degrees becomes 5,000). Array size should be 17 bytes exactly. All 8 sensors must be sent at once. Any sensor that doesn't have a value should be marked as 0xFF.
+Report ID 7 followed by 8 int16's which corresponds to the 8 possible software temperature sensors. Values should be in Celsius, multiplied by 100 (so 50 degrees becomes 5,000). Array size should be 17 bytes exactly. All 8 sensors must be sent at once. Any sensor that doesn't have a value should be sent as 0x7FFF.
 
 Example: We have the temperature readings 10, 20, 30, 40, and 50 for the first 5 sensors.
 
 ```
        |- 1000 -|  |- 2000 -|  |- 3000 -|  |- 4000 -|  |- 5000 -|  |- none -|  |- none -|  |- none -|
-[0x07, 0x03, 0xE8, 0x07, 0xD0, 0x0B, 0xB8, 0x0F, 0xA0, 0x13, 0x88, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
+[0x07, 0x03, 0xE8, 0x07, 0xD0, 0x0B, 0xB8, 0x0F, 0xA0, 0x13, 0x88, 0x7F, 0xFF, 0x7F, 0xFF, 0x7F, 0xFF]
 ```
 
 ### Report ID 10 (Update Software Temp Name)
