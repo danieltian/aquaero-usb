@@ -11,7 +11,7 @@ Example: We have the temperature readings 10, 20, 30, 40, and 50 for the first 5
 
 ### Report ID 10 (Update Software Temp Name)
 
-Report ID 10 followed by an int16 that represents the software sensor to update (starts at 32, increments by 1 up to 40 for all 8 sensors). Then followed by 0x00, then a 24-byte string for the name where the last byte is 0x00 (allowing for 23 characters total). Any character in between that's blank should be 0x00. The array size should be 28 bytes exactly. The Aquaero 6 supports the complete Latin1 character set (also known as ISO 8859-1) minus the very last character, 'ÿ'. Sending data that uses another encoding (such as UTF8 or Windows-1252) will treat it as if it's the Latin1 character set.
+Report ID 10 followed by an int16 that represents the software sensor to update (starts at 32, increments by 1 up to 40 for all 8 sensors). Then followed by 0x00, then a 24-byte string for the name where the last byte is 0x00 (allowing for 23 characters total). Any character in between that's blank should be 0x00. The array size should be 28 bytes exactly. The Aquaero 6 supports the complete Latin1 character set (also known as ISO 8859-1) minus the very last character, ÿ. Sending data that uses another encoding such as UTF8 or Windows-1252 will treat it as if it's the Latin1 character set.
 
 Example: We set software sensor 32 with the string 'abcde':
 
