@@ -9,9 +9,9 @@ Example: We have the temperature readings 10, 20, 30, 40, and 50 for the first 5
 [0x07, 0x03, 0xE8, 0x07, 0xD0, 0x0B, 0xB8, 0x0F, 0xA0, 0x13, 0x88, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
 ```
 
-### Report ID 10 (Update Software Temp Names)
+### Report ID 10 (Update Software Temp Name)
 
-Report ID 10 followed by an int16 that represents the software sensor name to update (starts at 32, increments by 1 up to 40 for all 8 sensors). Then followed by 0x00, then a 24-byte string for the name where the last byte is 0x00 (allowing for 23 characters total). Any character in between that's blank should be 0x00.
+Report ID 10 followed by an int16 that represents the software sensor to update (starts at 32, increments by 1 up to 40 for all 8 sensors). Then followed by 0x00, then a 24-byte string for the name where the last byte is 0x00 (allowing for 23 characters total). Any character in between that's blank should be 0x00. The Aquaero 6 does not support double-byte characters, and supports most, but not all text with diacritics. Eszett is also supported, but not the capitalized version.
 
 Example: We set software sensor 32 with the string 'abcde':
 

@@ -1,11 +1,14 @@
 var HID = require('node-hid');
 
 var devices = HID.devices();
+console.log(devices);
 // Find the Aquaero device.
 var aquaeroDevice = HID.devices().find((device) => device.product == 'aquaero Device');
+//console.log(aquaeroDevice);
 
 // Open the Aquaero device.
-var device = new HID.HID('\\\\?\\hid#vid_0c70&pid_f001&mi_02#7&19825fb9&0&0000#{4d1e55b2-f16f-11cf-88cb-001111000030}');
+var device = new HID.HID(aquaeroDevice.path);
+
 
 device.on('data', (data) => {
   console.log('data', data.length);
@@ -20,7 +23,7 @@ function writeSoftwareSensorValues() {
 }
 
 function writeSoftwareSensorName() {
-  device.write([0x10, 0x00, 0x20, 0x00, 'a'.charCodeAt(0), 'b'.charCodeAt(0), 'c'.charCodeAt(0), 'd'.charCodeAt(0), 'e'.charCodeAt(0), 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
+  device.write([0x0A, 0x00, 0x20, 0x00, 0x61, 0x62, 0x63, 0x64, 0x65, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
 }
 
 function writeTime() {
@@ -37,6 +40,6 @@ function writeTime() {
   device.write(array);
 }
 
-writeTime();
+writeSoftwareSensorName();
 
 console.log('done');
