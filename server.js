@@ -40,15 +40,40 @@ function writeSoftwareSensorValues() {
   device.write([0x07, 0x03, 0xE8, 0x07, 0xD0, 0x0B, 0xB8, 0x0F, 0xA0, 0x13, 0x88, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]);
 }
 
+class BufferWriter {
+  constructor(size) {
+    this.currentPosition = 0;
+    this.buffer = Buffer.alloc(size);
+  }
+
+  writeUInt16BE(number) {
+    this.currentPosition = this.buffer.writeUInt16BE(number, this.currentPosition);
+    console.log('currentPosition');
+  }
+
+  writeUInt8(number) {
+    this.currentPosition = this.buffer.writeUInt8(number, this.currentPosition);
+  }
+
+  write(string) {
+    this.currentPosition = this.buffer.write(string, this.currentPosition, string.length, 'latin1');
+  }
+
+  toArray() {
+    return Array.from(this.buffer);
+  }
+}
+
 function writeSoftwareSensorName(name) {
   console.log('name', name);
-  var buffer = Buffer.alloc(28);
+  var buffer = new BufferWriter(28);
   buffer.writeUInt8(10);
-  buffer.writeUInt16BE(32, 1);
-  buffer.write(name, 4, name.length, 'latin1');
-  var array = Array.from(buffer);
-  console.log(array);
+  buffer.writeUInt16BE(32);
+  buffer.writeUInt8(0);
+  buffer.write(name);
+  var array = buffer.toArray();
 
+  console.log(array);
   device.write(array);
 }
 
