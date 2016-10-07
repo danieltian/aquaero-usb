@@ -9,10 +9,20 @@ app.use(express.static(__dirname + '/public'));
 app.post('/sensor', (request, response) => {
   if (request.body && request.body.name) {
     writeSoftwareSensorName(request.body.name);
-    response.sendStatus(200);
+    response.status(200).send();
   }
   else {
-    response.write(500);
+    response.status(500).send();
+  }
+});
+
+app.post('/temp', (request, response) => {
+  if (request.body && request.body.temp) {
+    writeTemperature(request.body.temp);
+    response.status(200).send();
+  }
+  else {
+    response.status(500).send();
   }
 });
 
@@ -46,9 +56,12 @@ class BufferWriter {
     this.buffer = Buffer.alloc(size);
   }
 
-  writeUInt16BE(number) {
+  writeUInt16(number) {
     this.currentPosition = this.buffer.writeUInt16BE(number, this.currentPosition);
-    console.log('currentPosition');
+  }
+
+  writeInt16(number) {
+    this.currentPosition = this.buffer.writeInt16BE(number, this.currentPosition);
   }
 
   writeUInt8(number) {
@@ -68,7 +81,7 @@ function writeSoftwareSensorName(name) {
   console.log('name', name);
   var buffer = new BufferWriter(28);
   buffer.writeUInt8(10);
-  buffer.writeUInt16BE(32);
+  buffer.writeUInt16(32);
   buffer.writeUInt8(0);
   buffer.write(name);
   var array = buffer.toArray();
@@ -77,18 +90,36 @@ function writeSoftwareSensorName(name) {
   device.write(array);
 }
 
+function writeTemperature(temp) {
+  temp = temp * 100;
+  var buffer = new BufferWriter(17);
+  buffer.writeUInt8(7);
+  buffer.writeInt16(temp);
+  buffer.writeInt16(32767);
+  buffer.writeInt16(32767);
+  buffer.writeInt16(32767);
+  buffer.writeInt16(32767);
+  buffer.writeInt16(32767);
+  buffer.writeInt16(32767);
+  buffer.writeInt16(32767);
+  device.write(buffer.toArray());
+}
+
 function writeTime() {
   var now = new Date();
   var currentTimeInMilliseconds = (now.getTime() + now.getTimezoneOffset() * 60000) - new Date(2009, 1, 1, 0, 0, 0);
   var currentTimeInSeconds = Math.floor(currentTimeInMilliseconds / 1000);
-  var buffer = Buffer.alloc(7);
+  var buffer = new BufferWriter(7);
+  buffer.writeUInt8(6);
+  buffer.writeUInt16(37000);
+  buffer.writerUInt32(currentTimeInSeconds);
   buffer.writeUInt8(6);
   buffer.writeUInt16BE(37000, 1);
   buffer.writeUInt32BE(currentTimeInSeconds, 3);
   var array = Array.from(buffer);
 
   console.log(array);
-  device.write(array);
+  //device.write(array);
 }
 
 //writeSoftwareSensorName();

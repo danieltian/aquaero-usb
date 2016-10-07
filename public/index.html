@@ -2,10 +2,23 @@
 
 <html>
 
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.slim.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.js"></script>
+
 <body>
-  <label for="name">Sensor 1 Name:</label>
-  <input type="text" id="name" maxlength="24">
-  <button id="rename-sensor-1">Go</button>
+  <div>
+    <label for="name">Sensor 1 Name:</label>
+    <input type="text" id="name" maxlength="24">
+    <button id="rename-sensor-1" class="ui primary button">Go</button>
+  </div>
+
+  <div>
+    <label for="temp">Software Sensor 1 Temp:</label>
+    <input type="number" id="temp" step="0.01">
+    <button id="temp-sensor-1" class="ui teal button">Go</button>
+  </div>
 
   <script>
     function post(url, data) {
@@ -17,7 +30,7 @@
         xhr.onreadystatechange = () => {
           if (xhr.readyState === 4) {
             if (xhr.status === 200) {
-              resolve(JSON.parse(xhr.responseText));
+              resolve(xhr.responseText && JSON.parse(xhr.responseText));
             }
             else {
               reject({ statusCode: xhr.status, body: xhr.responseText, url: url });
@@ -30,6 +43,11 @@
     var sensor1Name = document.getElementById('name');
     document.getElementById('rename-sensor-1').addEventListener('click', () => {
       post('/sensor', { name: sensor1Name.value });
+    });
+
+    var temp = document.getElementById('temp');
+    document.getElementById('temp-sensor-1').addEventListener('click', () => {
+      post('/temp', { temp: temp.value });
     });
   </script>
 </body>

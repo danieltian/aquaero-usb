@@ -1,6 +1,6 @@
 ### Report ID 7 (Update Software Temps)
 
-Report ID 7 followed by 8 int16's which corresponds to the 8 possible software temperature sensors. Values should be in Celsius, multiplied by 100 (so 50 degrees becomes 5,000). Array size should be 17 bytes exactly. All 8 sensors must be sent at once. Any sensor that doesn't have a value should be sent as 0x7FFF.
+Report ID 7 followed by 8 int16's which corresponds to the 8 possible software temperature sensors. Values should be in Celsius, multiplied by 100 (so 50 degrees becomes 5,000). Up to two digits of precision is supported. Array size should be 17 bytes exactly. All 8 sensors must be sent at once. Any sensor that doesn't have a value should be sent as 0x7FFF.
 
 Example: We have the temperature readings 10, 20, 30, 40, and 50 for the first 5 sensors.
 
