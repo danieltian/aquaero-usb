@@ -26,6 +26,16 @@ app.post('/temp', (request, response) => {
   }
 });
 
+app.post('/time', (request, response) => {
+  if (request.body && request.body.time) {
+    writeTime(request.body.time);
+    response.status(200).send();
+  }
+  else {
+    response.status(500).send();
+  }
+});
+
 app.listen(8080);
 console.log('listening on 8080');
 
@@ -56,22 +66,32 @@ class BufferWriter {
     this.buffer = Buffer.alloc(size);
   }
 
-  writeUInt16(number) {
-    this.currentPosition = this.buffer.writeUInt16BE(number, this.currentPosition);
+  writeUInt8(number) {
+    this.currentPosition = this.buffer.writeUInt8(number, this.currentPosition);
   }
 
   writeInt16(number) {
     this.currentPosition = this.buffer.writeInt16BE(number, this.currentPosition);
   }
 
-  writeUInt8(number) {
-    this.currentPosition = this.buffer.writeUInt8(number, this.currentPosition);
+  writeUInt16(number) {
+    this.currentPosition = this.buffer.writeUInt16BE(number, this.currentPosition);
+  }
+
+  writeUInt32(number) {
+    this.currentPosition = this.buffer.writeUInt32BE(number, this.currentPosition);
   }
 
   write(string) {
     this.currentPosition = this.buffer.write(string, this.currentPosition, string.length, 'latin1');
   }
 
+  // Sets the array writing position, which is an offset in bytes.
+  setPosition(position) {
+    this.currentPosition = position;
+  }
+
+  // Convert the buffer to an array.
   toArray() {
     return Array.from(this.buffer);
   }
@@ -105,23 +125,12 @@ function writeTemperature(temp) {
   device.write(buffer.toArray());
 }
 
-function writeTime() {
-  var now = new Date();
-  var currentTimeInMilliseconds = (now.getTime() + now.getTimezoneOffset() * 60000) - new Date(2009, 1, 1, 0, 0, 0);
+function writeTime(utcTimeInMilliseconds) {
+  var currentTimeInMilliseconds = utcTimeInMilliseconds - Date.UTC(2009, 0, 1, 0, 0, 0);
   var currentTimeInSeconds = Math.floor(currentTimeInMilliseconds / 1000);
   var buffer = new BufferWriter(7);
   buffer.writeUInt8(6);
   buffer.writeUInt16(37000);
-  buffer.writerUInt32(currentTimeInSeconds);
-  buffer.writeUInt8(6);
-  buffer.writeUInt16BE(37000, 1);
-  buffer.writeUInt32BE(currentTimeInSeconds, 3);
-  var array = Array.from(buffer);
-
-  console.log(array);
-  //device.write(array);
+  buffer.writeUInt32(currentTimeInSeconds);
+  device.write(buffer.toArray());
 }
-
-//writeSoftwareSensorName();
-
-//console.log('done');
