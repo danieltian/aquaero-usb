@@ -35,7 +35,7 @@ Example: We set the time:
 
 Mega settings file
 
-| Hex Offset | Decimal offset | Data type | Description |
+| Hex Offset | Decimal Offset | Data Type | Description |
 |------------|----------------|-----------|-------------|
 | 0x0000 | 0 | uint8 | Report ID 11 |
 | 0x0001 | 1 | uint16 | Structure ID 1200, will be valid for firmware versions 2000 to 2007 and likely beyond |
