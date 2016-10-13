@@ -50,8 +50,9 @@ Mega settings file
 | 0x0021 | 33 | uint16 | Backlight brightness when on standby, this number is a percentage from 0% to 100% multiplied by 100, so 40% would be 4,000 |
 
 
-Scratch pad stuff below, TODO: format this into a table
+#### Scratch pad stuff below, TODO: format this into a table
 
+```
 0 Report ID 11
 1-2 Structure version 1200
 3-6 Aquaero timestamp
@@ -114,3 +115,4 @@ Action types:
 	KEYBOARD_VOLUP = 18,
 	KEYBOARD_VOLDOWN = 19,
 	KEYBOARD_MUTE = 20
+```
