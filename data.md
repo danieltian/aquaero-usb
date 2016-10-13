@@ -35,9 +35,9 @@ Example: We set the time:
 
 Mega settings file
 
-| Hex Offset | Decimal offset | Data type | Range | Description |
+| Hex Offset | Decimal offset | Data type | Description |
 |------------|----------------|-----------|-------------|
-| 0x0000 | 0 | uint8 | Always 11 | Report ID |
+| 0x0000 | 0 | uint8 | Report ID 11 |
 | 0x0001 | 1 | uint16 | Structure ID 1200, will be valid for firmware versions 2000 to 2007 and likely beyond |
 | 0x0003 | 3 | uint32 | Aquaero timestamp, this value seems to be ignored, use report ID 6's sync time command to update the time instead |
 | 0x0007 | 7 | int16 | Clock offset, this seems to always be 0 and is ignored, the actual UTC offset is controlled at 0x46 instead |
